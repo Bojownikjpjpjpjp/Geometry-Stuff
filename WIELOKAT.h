@@ -12,7 +12,7 @@ public:
     WIELOKAT(int ilosc_wierzcholkow, PUNKT punkty[]);
     WIELOKAT(int ilosc_wierzcholkow);
     WIELOKAT();
-
+    void generuj_krawedzie();
     double licz_pole_wielokata();
 
     bool czy_punkt_w_wielokacie(PUNKT punkt);

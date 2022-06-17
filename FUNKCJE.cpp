@@ -253,6 +253,15 @@ double policz_pole_trojkata(PUNKT p1, PUNKT p2, PUNKT p3) {
     if (pole < 0) { pole *= -1; }
     //std::cout << "\npole = " << pole;
     return pole;
+}double policz_pole_trojkata_z_ujemnym_wynikiem(PUNKT p1, PUNKT p2, PUNKT p3) {
+    PUNKT v1, v2;
+    double pole = 0;
+    v1 = { (p2.x - p1.x),(p2.y - p1.y) };
+    v2 = { (p3.x - p1.x),(p3.y - p1.y) };
+    pole += (0.5 * ((v1.x * v2.y) - (v1.y * v2.x)));
+    if (pole < 0) { pole *= -1; }
+    //std::cout << "\npole = " << pole;
+    return pole;
 }
 bool czy_punkt_w_zbiorze(PUNKT p1, PUNKT* zbior) {
     for (int i = 0; i < sizeof(zbior); i++) {

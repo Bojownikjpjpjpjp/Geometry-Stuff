@@ -30,6 +30,7 @@ bool z_prawej_strony_prostej_input_linia(LINIA prosta, PUNKT p3);
 bool z_prawej_strony_prostej_input_tablica(double* tab, PUNKT p3);
 
 double policz_pole_trojkata(PUNKT p1, PUNKT p2, PUNKT p3);
+double policz_pole_trojkata_z_ujemnym_wynikiem(PUNKT p1, PUNKT p2, PUNKT p3);
 double policz_wyznacznik_2_punkty(PUNKT p1, PUNKT p2);
 double kat_miedzy_liniami(LINIA l1, LINIA l2);
 double dlugosc_odcinka(PUNKT p1, PUNKT p2);

@@ -13,6 +13,15 @@ using namespace std;
 PUNKT losuj_punkt() {
     double dz = 18000.3;
     PUNKT temp = PUNKT((rand() - 16383) / dz, (rand() - 16383) / dz);
+#pragma region 1sza_cwiartka
+    if (temp.x < 0) {
+        temp.x *= -1;
+    }
+    if (temp.y < 0) {
+        temp.y *= -1;
+    }
+#pragma endregion
+
         return temp;
 }
 LINIA generuj_linie_z_2_punktow(PUNKT p1, PUNKT p2) {

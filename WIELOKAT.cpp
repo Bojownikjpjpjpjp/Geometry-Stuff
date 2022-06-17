@@ -34,6 +34,23 @@ WIELOKAT::WIELOKAT(int ilosc_wierzcholkow) {
 WIELOKAT::WIELOKAT() {
 
 }
+void WIELOKAT::generuj_krawedzie() {
+	for (int i = 0; i < sizeof(ilosc_wierzcholkow); i++) {
+
+		if (i == sizeof(ilosc_wierzcholkow) - 1) {
+			//std::cout << "\ninput: " << i << " punkty: ";
+			//std::cout << "\nPi: x: " << punkty[i].x << " y: " << punkty[i].y;
+			//std::cout << "\nP0: x: " << punkty[0].x << " y: " << punkty[0].y;
+
+			this->krawedzie[i] = generuj_linie_z_2_punktow(this->punkty[i], this->punkty[0]);
+			//this->krawedzie[i].wypisz();
+
+		}
+		else {
+			this->krawedzie[i] = generuj_linie_z_2_punktow(this->punkty[i], this->punkty[i + 1]);
+		}
+	}
+}
 //pole nie skoñczone
 double WIELOKAT::licz_pole_wielokata() {
 	for (int i = 0; i < this->ilosc_wierzcholkow; i++) {
@@ -114,7 +131,7 @@ WIELOKAT WIELOKAT::generuj_otoczke_z_chmury(PUNKT punkty[]) {
 	wierzcholki_otoczki[0] = init_k1;
 	wierzcholki[0] = init_k1;
 
-	int iterator = 0;
+	int licznik_kolejnego_punktu = 0;
 	int kolejny_punkt = 0;
 	double alfa_min = 100;
 	double kat = 0;
@@ -122,16 +139,26 @@ WIELOKAT WIELOKAT::generuj_otoczke_z_chmury(PUNKT punkty[]) {
 	//szukanie najmniejszego kata i przypisywanie punktu do otoczki
 	for (int ii = 0; ii < 10; ii++) {
 		//porownywanie kata
-		for (int i = 0; i < 10-indeks_otoczki; i++) {
-			if (czy_punkt_w_zbiorze(punkty[i], wierzcholki)){
-			continue;
+			licznik_kolejnego_punktu = 0;
+			for (int i = 0; i < 10 - indeks_otoczki; i++) {
+				if (licznik_kolejnego_punktu == 5){//je¿eli przez kilka obrotów pêtli nie znajdzie siê inny punkt ni¿ initk2 to przerywa pêtlê
+					if (punkty[kolejny_punkt] == init_k2) {
+						break;
+					}
+				}
+				if (czy_punkt_w_zbiorze(punkty[i], wierzcholki)) {
+					continue;
+				}
+				else {
+					kat = asin((2 * policz_pole_trojkata_z_ujemnym_wynikiem(init_tmp, koniec_lini, punkty[i])) / (dlugosc_odcinka(init_tmp, koniec_lini) * dlugosc_odcinka(init_tmp, punkty[i])));
+					if (alfa_min > kat) {
+						alfa_min = kat;
+						kolejny_punkt = i;
+						licznik_kolejnego_punktu++;
+					}
+				}
 			}
-			kat = asin((2*policz_pole_trojkata(init_tmp, koniec_lini, punkty[i])) / (dlugosc_odcinka(init_tmp, koniec_lini) * dlugosc_odcinka(init_tmp, punkty[i])));		
-			if (alfa_min > kat) {
-				alfa_min = kat;
-				kolejny_punkt = i;
-			}///nie ma przerwania funkcji gdy 
-		}
+		
 		//dopisanie punktu do punktów otoczki, przesuniêcie pionowej linii na nowy y
 		if (czy_punkt_w_zbiorze(punkty[kolejny_punkt], wierzcholki)) {
 			continue;
@@ -161,12 +188,12 @@ WIELOKAT WIELOKAT::generuj_otoczke_z_chmury(PUNKT punkty[]) {
 	//szukanie najmniejszego kata i przypisywanie punktu do otoczki z góry
 	alfa_min = 100;
 	init_tmp = init_k2;
-	koniec_lini.x = -1;
+	koniec_lini.x = 0;
 	koniec_lini.y = init_k2.y;
 	for (int ii = 0; ii < 10; ii++) {
 		for (int i = 0; i < 10-indeks_otoczki; i++) {
 			if ((punkty[i].x == init_k1.x && punkty[i].y == init_k1.y)) {
-				kat = asin((2 * policz_pole_trojkata(init_tmp, koniec_lini, punkty[i])) / (dlugosc_odcinka(init_tmp, koniec_lini)* dlugosc_odcinka(init_tmp, punkty[i])));
+				kat = asin((2 * policz_pole_trojkata_z_ujemnym_wynikiem(init_tmp, koniec_lini, punkty[i])) / (dlugosc_odcinka(init_tmp, koniec_lini)* dlugosc_odcinka(init_tmp, punkty[i])));
 				if (alfa_min > kat) {
 					alfa_min = kat;
 					kolejny_punkt = i;
@@ -176,7 +203,7 @@ WIELOKAT WIELOKAT::generuj_otoczke_z_chmury(PUNKT punkty[]) {
 			if (czy_punkt_w_zbiorze(punkty[i], wierzcholki)) {
 				continue;
 			}
-			kat = asin((2*policz_pole_trojkata(init_tmp, koniec_lini, punkty[i])) / (dlugosc_odcinka(init_tmp, koniec_lini) * dlugosc_odcinka(init_tmp, punkty[i])));
+			kat = asin((2* policz_pole_trojkata_z_ujemnym_wynikiem(init_tmp, koniec_lini, punkty[i])) / (dlugosc_odcinka(init_tmp, koniec_lini) * dlugosc_odcinka(init_tmp, punkty[i])));
 			if (alfa_min > kat) {
 				alfa_min = kat;
 				kolejny_punkt = i;

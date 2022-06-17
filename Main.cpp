@@ -126,10 +126,31 @@ int main()
 #pragma endregion
 
 #pragma region otoczka
+	WIELOKAT andrzejtmp = WIELOKAT(10);
+	andrzejtmp = WIELOKAT::generuj_otoczke_z_chmury(punkty);
 	WIELOKAT andrzej = WIELOKAT(10);
-	andrzej = WIELOKAT::generuj_otoczke_z_chmury(punkty);
 
+	PUNKT zerozero = PUNKT(0.0, 0.0);
+	
+	for (int i = 0; i < 10; i++) {
+		if (andrzejtmp.punkty[i] == zerozero) {
+			andrzej.punkty[i] = andrzej.punkty[i-1];
+		}
+		else {
+			andrzej.punkty[i] = andrzejtmp.punkty[i];
+		}
+	}
+	andrzej.generuj_krawedzie();
 
+	cout << "\n andrzejtmp\n";
+	for (int i = 0; i < 10; i++) {
+		andrzejtmp.punkty[i].wypisz();
+	}
+
+	cout << "\n andrzej\n";
+	for (int i = 0; i < 10; i++) {
+		andrzej.punkty[i].wypisz();
+	}
 	//PUNKT test1(0.4, 0.4);
 	//PUNKT test2;
 	//test2 = test1;
@@ -227,7 +248,8 @@ int main()
 		11,12,
 		12,13,
 		13,4,
-		0,14,
+		//9,4,
+		//0,14,
 
 		//14,15,
 		//15,16,
